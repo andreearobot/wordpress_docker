@@ -16,7 +16,7 @@
 
 # The following options will be passed to all MySQL clients
 [client]
-#password	= your_password
+password	= wordpress
 port		= 3306
 socket		= /var/run/mysqld/mysqld.sock
 

@@ -36,7 +36,7 @@ services:
       # below values should match wp-config
       MYSQL_DATABASE: blog
       MYSQL_USER: wordpress
-      MYSQL_PASSWORD: PASSWORD!!!
+      MYSQL_PASSWORD: wordpress
 
 # Use these images for dynamic DDNS updates
 # For Google domains use http://j.mp/2bRNYET
