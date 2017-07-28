@@ -1,2 +1,3 @@
 .data
+env_mysql.env
 *.swp

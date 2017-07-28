@@ -12,17 +12,20 @@ services:
       - "80:80"
       - "443:443"
     restart: always
+    networks:
+      rpi_net:
+        ipv4_address: 172.19.0.4
 
   php:
     image: rothgar/rpi-php:5.6
     #build: php
-    links:
-      # make sure you change your wp-config
-      - mysql:mysql
     volumes:
       - "./.data/wp:/srv"
     restart: always
-
+    networks:
+      rpi_net:
+        ipv4_address: 172.19.0.5
+    
   mysql:
     image: rothgar/rpi-mysql:5.5
     #build: mysql
@@ -30,14 +33,25 @@ services:
       - "./.data/db:/var/lib/mysql"
       - "./.data/backup/1n7:/docker-entrypoint-initdb.d"
     restart: always
-    environment:
-      # Change for your existing database
-      MYSQL_ROOT_PASSWORD: wordpress
-      # below values should match wp-config
-      MYSQL_DATABASE: blog
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+    env_file:
+      env_mysql.env
+    networks:
+      rpi_net:
+        ipv4_address: 172.19.0.6
 
+networks:
+   rpi_net:
+     driver: bridge
+     driver_opts:
+       com.docker.network.enable_ipv6: "false"
+       com.docker.network.bridge.enable_ip_masquerade: "true"
+     ipam:
+
+       driver: default
+       config:
+         - subnet: 172.19.0.0/16
+           gateway: 172.19.0.1
+         
 # Use these images for dynamic DDNS updates
 # For Google domains use http://j.mp/2bRNYET
 # Make sure you update WWW and @ DNS entries
